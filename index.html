@@ -3175,13 +3175,15 @@
         /* card 1: number on top, heading + text at the bottom */
         .wmk-dont-do .wmk-dont-do__card--1 h3 { margin-top: auto; }
         /* card 2: number on top, heading right under it, image at the bottom-right */
-        .wmk-dont-do .wmk-dont-do__card--2 h3 { margin-top: 24px; }
+        .wmk-dont-do .wmk-dont-do__card--2 h3 { margin-top: 14px; }
         .wmk-dont-do .wmk-dont-do__card--2 p { max-width: 215px; }
+        /* camera + mic sit in the bottom-right corner, always below the heading */
         .wmk-dont-do .wmk-dont-do__card--2 .wmk-dont-do__media {
-            position: absolute; right: 36px; bottom: 16px;
-            width: 250px; height: auto; flex: none; z-index: 1;
+            position: absolute; right: 28px; bottom: 14px;
+            width: auto; height: 132px; flex: none; z-index: 1;
         }
-        .wmk-dont-do .wmk-dont-do__card--2 .wmk-dont-do__media img { height: auto; }
+        .wmk-dont-do .wmk-dont-do__card--2 .wmk-dont-do__media img { width: auto; height: 100%; }
+        .wmk-dont-do .wmk-dont-do__card--2 .wmk-dont-do__card-content { position: relative; z-index: 2; }
         /* card 3: number on top, bigger heading + text sitting lower (left side only) */
         .wmk-dont-do .wmk-dont-do__card--3 .wmk-dont-do__card-content {
             top: 36px; bottom: 36px; left: 36px; max-width: 440px; gap: 12px;
