@@ -1,8 +1,10 @@
-# Auto-deploy: every push to "main" uploads the changed files to cPanel via FTP.
+# Auto-deploy: every push to "main" tells cPanel to pull the latest code
+# from GitHub and deploy it (using .cpanel.yml) to public_html/eyezonkid.com.
+#
 # Needs 3 repository secrets (GitHub → Settings → Secrets and variables → Actions):
-#   FTP_SERVER    e.g. ftp.eyezonkid.com
-#   FTP_USERNAME  the FTP account you create in cPanel
-#   FTP_PASSWORD  its password
+#   CPANEL_HOST   your cPanel server name, e.g. p3plzcpnl123456.prod.phx3.secureserver.net
+#   CPANEL_USER   callastro1
+#   CPANEL_TOKEN  the API token from cPanel → Manage API Tokens
 name: Deploy eyezonkid.com
 
 on:
@@ -10,26 +12,21 @@ on:
     branches: [main]
   workflow_dispatch:
 
+env:
+  REPO_ROOT: /home/${{ secrets.CPANEL_USER }}/repositories/eyezonkid-website
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: 1. cPanel pulls the latest code from GitHub
+        run: |
+          curl -sS -H "Authorization: cpanel ${{ secrets.CPANEL_USER }}:${{ secrets.CPANEL_TOKEN }}" \
+            "https://${{ secrets.CPANEL_HOST }}:2083/execute/VersionControl/update?repository_root=${REPO_ROOT}&branch=main" | tee pull.json
+          grep -q '"status":1' pull.json || { echo "Pull failed"; exit 1; }
 
-      - name: Upload to cPanel
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          # FTP account's home should be public_html/eyezonkid.com, so upload to its root
-          server-dir: ./
-          exclude: |
-            **/.git*
-            **/.git*/**
-            .github/**
-            _src/**
-            .env*
-            **/*.zip
-            README.md
+      - name: 2. cPanel deploys it to public_html/eyezonkid.com
+        run: |
+          curl -sS -H "Authorization: cpanel ${{ secrets.CPANEL_USER }}:${{ secrets.CPANEL_TOKEN }}" \
+            "https://${{ secrets.CPANEL_HOST }}:2083/execute/VersionControlDeployment/create?repository_root=${REPO_ROOT}" | tee deploy.json
+          grep -q '"status":1' deploy.json || { echo "Deploy failed"; exit 1; }

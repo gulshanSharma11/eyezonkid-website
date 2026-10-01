@@ -1,6 +1,7 @@
-# Used only if you deploy with cPanel → Git Version Control → "Deploy HEAD Commit"
+# cPanel → Git Version Control runs this on "Deploy HEAD Commit".
+# It copies the site into public_html/eyezonkid.com only (call-astro is never touched).
 ---
 deployment:
   tasks:
     - export DEPLOYPATH=/home/callastro1/public_html/eyezonkid.com/
-    - /bin/rsync -a --exclude='.git' --exclude='.github' --exclude='_src' --exclude='.cpanel.yml' --exclude='.gitignore' --exclude='.env*' --exclude='*.zip' ./ $DEPLOYPATH
+    - /bin/rsync -rlt --chmod=D755,F644 --exclude='.git' --exclude='.github' --exclude='_src' --exclude='.cpanel.yml' --exclude='.gitignore' --exclude='.env*' --exclude='*.zip' --exclude='__MACOSX' --exclude='images/*.png' --exclude='images/index.html' --exclude='.DS_Store' ./ $DEPLOYPATH
