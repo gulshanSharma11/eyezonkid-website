@@ -1,0 +1,6 @@
+# Used only if you deploy with cPanel → Git Version Control → "Deploy HEAD Commit"
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/callastro1/public_html/eyezonkid.com/
+    - /bin/rsync -a --exclude='.git' --exclude='.github' --exclude='_src' --exclude='.cpanel.yml' --exclude='.gitignore' --exclude='.env*' --exclude='*.zip' ./ $DEPLOYPATH

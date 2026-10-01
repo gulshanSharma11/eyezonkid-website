@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Delete your account | Eyezonkid</title>
+<meta name="description" content="Permanently delete your Eyezonkid account and your family's data.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2EC4B6">
+<link rel="preload" href="/fonts/urbanist.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:'Urbanist';font-style:normal;font-weight:400 800;font-display:swap;src:url(/fonts/urbanist.woff2) format('woff2')}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#FFFCF2;font-family:'Urbanist',system-ui,sans-serif;color:#252422}
+.bar{height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid rgba(37,36,34,.08);background:#FFFCF2}
+.logo{font-weight:800;font-size:24px;letter-spacing:-.02em;color:#3A3533;text-decoration:none}
+.logo i{font-style:normal;color:#F07167}
+.back{font-weight:600;font-size:15px;color:#219488;text-decoration:none}
+.back:hover{text-decoration:underline}
+.frame{display:block;width:100%;height:calc(100% - 60px);border:0;background:#fff}
+</style>
+</head>
+<body>
+<header class="bar">
+    <a class="logo" href="/" aria-label="Eyezonkid home"><img src="/images/logo.webp" width="215" height="49" alt="Eyezonkid" style="display:block;height:34px;width:auto"></a>
+    <a class="back" href="/privacy-policy/#delete-account">← Back to Privacy Policy</a>
+</header>
+<!-- The account-deletion form is served by the Eyezonkid API and shown here,
+     so the address bar stays on eyezonkid.com/delete-account/ -->
+<iframe class="frame" title="Delete your Eyezonkid account"
+        src="https://api.eyezonkid.com/auth/v1/delete-account"
+        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<script>
+/* always show the clean address: eyezonkid.com/delete-account */
+(function () {
+    var p = location.pathname;
+    if (/delete-account(\.html|\/)$/.test(p)) history.replaceState(null, '', p.replace(/delete-account(\.html|\/)$/, 'delete-account') + location.hash);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+DirectoryIndex index.html
+RewriteEngine On
+
+# ===== Eyezonkid: pages, speed & security =====
+# Hide build sources
+RedirectMatch 404 ^/_src(/|$)
+
+# Never serve env / secret files
+<FilesMatch "^\.(env|eyezonkid\.env)|\.env(\.example)?$">
+  Require all denied
+</FilesMatch>
+
+# Pricing API proxy: /api/plans -> api/plans.php
+RewriteRule ^api/plans/?$ api/plans.php [L]
+
+# Short / legacy URLs -> canonical pages (301)
+RewriteRule ^help/?$ /help-centre/ [R=301,L]
+RewriteRule ^help-center/?$ /help-centre/ [R=301,L]
+RewriteRule ^privacy/?$ /privacy-policy/ [R=301,L]
+RewriteRule ^terms/?$ /terms-of-service/ [R=301,L]
+RewriteRule ^faqs/?$ /faq/ [R=301,L]
+# Missing trailing slash -> add it (one canonical URL per page)
+RewriteRule ^(help-centre|faq|privacy-policy|terms-of-service)$ /$1/ [R=301,L]
+# Delete account: always show eyezonkid.com/delete-account (no slash, no .html)
+RewriteCond %{THE_REQUEST} \s/+delete-account(\.html|/)[\s?] [NC]
+RewriteRule ^ /delete-account [R=301,L]
+RewriteRule ^delete-account$ /delete-account.html [L]
+# /page/index.html -> /page/
+RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[\s?] [NC]
+RewriteRule ^(.*/)?index\.html$ /$1 [R=301,L]
+
+# Compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/xml application/javascript application/json image/svg+xml
+</IfModule>
+
+# Browser caching
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType application/xml "access plus 1 day"
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+
+# BEGIN cPanel-generated php ini directives, do not edit
+# Manual editing of this file may result in unexpected behavior.
+# To make changes to this file, use the cPanel MultiPHP INI Editor (Home >> Software >> MultiPHP INI Editor)
+# For more information, read our documentation (https://go.cpanel.net/EA4ModifyINI)
+<IfModule php8_module>
+   php_value error_log "/home/callastro1/logs/php.error.log"
+   php_flag log_errors On
+</IfModule>
+<IfModule lsapi_module>
+   php_value error_log "/home/callastro1/logs/php.error.log"
+   php_flag log_errors On
+</IfModule>
+# END cPanel-generated php ini directives, do not edit
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php81” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php81 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

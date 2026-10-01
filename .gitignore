@@ -1,0 +1,17 @@
+# secrets – NEVER commit
+.env
+*.env
+!.env.example
+
+# junk / local only
+__MACOSX/
+.DS_Store
+*.zip
+images/index.html
+images/*.png
+node_modules/
+
+# server-managed files (cPanel / SSL) – don't overwrite from git
+.user.ini
+php.ini
+.well-known/

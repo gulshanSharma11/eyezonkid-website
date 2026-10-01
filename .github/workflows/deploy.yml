@@ -1,0 +1,35 @@
+# Auto-deploy: every push to "main" uploads the changed files to cPanel via FTP.
+# Needs 3 repository secrets (GitHub → Settings → Secrets and variables → Actions):
+#   FTP_SERVER    e.g. ftp.eyezonkid.com
+#   FTP_USERNAME  the FTP account you create in cPanel
+#   FTP_PASSWORD  its password
+name: Deploy eyezonkid.com
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Upload to cPanel
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          # FTP account's home should be public_html/eyezonkid.com, so upload to its root
+          server-dir: ./
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            _src/**
+            .env*
+            **/*.zip
+            README.md
