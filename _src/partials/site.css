@@ -235,3 +235,9 @@ img{max-width:100%;height:auto}
 /* Header logo image */
 .ezk-logo-img{display:block;height:42px;width:auto}
 @media (max-width:1024px){.ezk-logo-img{height:36px}}
+
+/* UX audit: pinned nav on every page, CTA hover = fill only, menu button fits on phones */
+.wmk-navbar{position:sticky;top:0;z-index:60;background:rgba(255,252,245,.82);-webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%);box-shadow:0 0 0 100vmax rgba(255,252,245,.82),0 1px 0 100vmax rgba(37,36,34,.07);clip-path:inset(0 -100vmax -1px)}
+.wmk-navbar .wmk-navbar__cta:hover,.wmk-navbar .wmk-navbar__cta:focus-visible{transform:none;box-shadow:none}
+.wmk-navbar .wmk-navbar__cta:hover::before,.wmk-navbar .wmk-navbar__cta:focus-visible::before{box-shadow:none}
+@media (max-width:600px){.wmk-navbar{gap:8px}.wmk-navbar .ezk-logo-img{height:32px}.wmk-navbar .wmk-navbar__cta{padding:2px}.wmk-navbar .wmk-navbar__cta-text{display:none}}

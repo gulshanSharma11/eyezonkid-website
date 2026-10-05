@@ -3794,5 +3794,150 @@
     }
     </style>
 
+<style id="ux-audit-fixes">
+/* ================================================================
+   UX AUDIT FIXES (designer review, Oct 2026)
+   ================================================================ */
+:root { --ezk-nav-h: 78px; }
+html { scroll-padding-top: calc(var(--ezk-nav-h) + 12px); }
+
+/* #3 Base background: solid white + soft brand gradient only at the top,
+      fading out after the hero / feature cards / phone previews */
+body { background: #FFFFFF; }
+body::before {
+    content: ""; position: absolute; z-index: -1; left: 0; right: 0; top: 0;
+    height: var(--ezk-top-grad-h, 2400px); pointer-events: none;
+    background: linear-gradient(120deg, var(--wmk-cream) 0%, var(--wmk-tan) 55%, var(--wmk-mint) 100%);
+    -webkit-mask: linear-gradient(180deg, #000 0%, #000 72%, transparent 100%);
+            mask: linear-gradient(180deg, #000 0%, #000 72%, transparent 100%);
+}
+body { position: relative; isolation: isolate; }
+
+/* #5 Sticky navigation: always pinned to the top while scrolling */
+.wmk-navbar {
+    position: sticky; top: 0; z-index: 60;
+    transition: padding .35s ease, background-color .35s ease, box-shadow .35s ease;
+}
+.wmk-navbar.is-stuck {
+    padding-top: 14px; padding-bottom: 14px;
+    background: rgba(255, 252, 245, .82);
+    -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+    /* paint the bar full-width even on screens wider than the 1440 container */
+    box-shadow: 0 0 0 100vmax rgba(255, 252, 245, .82), 0 1px 0 100vmax rgba(37, 36, 34, .07);
+    clip-path: inset(0 -100vmax -1px);
+}
+@media (max-width: 1024px) {
+    .wmk-navbar.is-stuck { padding-top: 12px; padding-bottom: 12px; }
+    /* mobile menu opens right under the pinned bar, wherever you are on the page */
+    .wmk-mobile-menu.is-open {
+        position: fixed; left: 0; right: 0; top: var(--ezk-nav-h); z-index: 59;
+        max-height: calc(100vh - var(--ezk-nav-h)); overflow-y: auto;
+        background: #FFFCF5; box-shadow: 0 16px 30px -18px rgba(37, 36, 34, .4);
+    }
+}
+
+/* Mobile nav fit (found while testing): the menu button was pushed off-screen on phones.
+   Under 600px the trial CTA shows only its arrow circle. */
+@media (max-width: 600px) {
+    .wmk-navbar { gap: 8px; }
+    .wmk-navbar .ezk-logo-img { height: 32px; }
+    .wmk-navbar .wmk-navbar__cta { padding: 2px; }
+    .wmk-navbar .wmk-navbar__cta-text { display: none; }
+    .wmk-navbar__burger { flex: 0 0 40px; }
+}
+
+/* #4 Nav CTA: no lift / no shadow on hover, only the fill transition */
+.wmk-navbar .wmk-navbar__cta:hover, .wmk-navbar .wmk-navbar__cta:focus-visible { transform: none; box-shadow: none; }
+.wmk-navbar .wmk-navbar__cta:hover::before, .wmk-navbar .wmk-navbar__cta:focus-visible::before { box-shadow: none; }
+
+@media (min-width: 1025px) {
+    /* H1 Hero: exactly 48px between the nav bar and the hero copy,
+          feature marquee stays pinned to the bottom of the hero */
+    .wmk-hero__left { justify-content: flex-start; }
+    .wmk-hero__text-wrap { flex: 1 1 auto; justify-content: space-between; padding-top: 48px; padding-bottom: 40px; gap: 40px; }
+}
+
+/* #2 "#1" badge pill: 31 x 25 */
+.wmk-badge__num { width: 31px; min-width: 31px; height: 25px; border-radius: 999px; padding: 0 3px; }
+
+/* #7 Hero phone: vertically centred in the visible area below the pinned nav */
+@media (min-width: 1101px) {
+    .ezk-scrolly__phone .wmk-hero__media {
+        top: var(--ezk-nav-h);
+        height: min(798px, calc(100vh - var(--ezk-nav-h)));
+        display: flex; align-items: center; justify-content: center;
+    }
+    .ezk-scrolly__phone .wmk-hero__media img { height: 100%; width: 100%; object-fit: contain; object-position: center; }
+}
+
+/* #6 "Download App" secondary CTA hover: teal fill sweeps in, text turns white, no lift */
+.wmk-btn-secondary { position: relative; isolation: isolate; overflow: hidden; transition: color .45s ease, border-color .45s ease; }
+.wmk-btn-secondary::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: #2EC4B6;
+    transform: scaleX(0); transform-origin: left center; transition: transform .55s cubic-bezier(.65, 0, .35, 1);
+}
+.wmk-btn-secondary:hover, .wmk-btn-secondary:focus-visible { background: transparent; transform: none; }
+.wmk-btn-secondary:hover::before, .wmk-btn-secondary:focus-visible::before { transform: scaleX(1); }
+.wmk-btn-secondary__text, .wmk-btn-secondary svg { transition: color .45s ease; }
+.wmk-btn-secondary:hover .wmk-btn-secondary__text, .wmk-btn-secondary:hover svg,
+.wmk-btn-secondary:focus-visible .wmk-btn-secondary__text, .wmk-btn-secondary:focus-visible svg { color: #FFFFFF; }
+
+/* Animation smoothness (cards 4 & 5): GPU-composited, one shared easing */
+.wmk-dont-do__card--4 .wmk-dont-do__media img {
+    will-change: transform; backface-visibility: hidden;
+    transition: transform .9s cubic-bezier(.22, 1, .36, 1);
+}
+.wmk-dont-do .wmk-dont-do__card--5::after {
+    will-change: transform, opacity; backface-visibility: hidden;
+    transition: transform 1.8s cubic-bezier(.22, 1, .36, 1), opacity 1.8s ease;
+}
+
+/* #8 "Why families switch": the chat phone scales with its column so it never
+      runs under the right-hand cards (was overlapping on 1280–1360px laptops) */
+@media (min-width: 1201px) {
+    .wmk-switch .wmk-switch__card--1 { container-type: inline-size; }
+    .wmk-switch .wmk-switch__card--1 .wmk-switch__media { left: 28cqi; width: 80cqi; }
+    .wmk-switch .wmk-switch__card--1::before { left: 35cqi; width: 65cqi; height: 65cqi; }
+}
+
+/* #9 FAQ: header on the left, accordion on the right (all desktop widths) */
+@media (min-width: 1101px) {
+    .wmk-faq { flex-wrap: nowrap; gap: 48px; }
+    .wmk-faq__intro { flex: 0 1 550px; min-width: 0; position: sticky; top: calc(var(--ezk-nav-h) + 24px); }
+    .wmk-faq__list { flex: 0 1 658px; min-width: 0; }
+}
+
+/* #10 Final CTA: copy sits beside the hand illustration on all desktop widths */
+@media (min-width: 1101px) {
+    .wmk-cta { flex-wrap: nowrap; gap: 48px; }
+    .wmk-cta__media { flex: 0 1 563px; min-width: 0; }
+    .wmk-cta__content { flex: 1 1 480px; min-width: 0; }
+}
+</style>
+<script>
+(function () {
+    var nav = document.querySelector('.wmk-navbar');
+    if (!nav) return;
+    var root = document.documentElement;
+    function onScroll() { nav.classList.toggle('is-stuck', window.scrollY > 8); }
+    function measure() {
+        // real height of the pinned bar (used by the sticky hero phone + anchor offsets)
+        var stuck = nav.classList.contains('is-stuck'), tr = nav.style.transition;
+        nav.style.transition = 'none';               // read the final pinned height, not a mid-transition one
+        nav.classList.add('is-stuck');
+        root.style.setProperty('--ezk-nav-h', nav.offsetHeight + 'px');
+        if (!stuck) nav.classList.remove('is-stuck');
+        void nav.offsetHeight; nav.style.transition = tr;
+        // top gradient fades out right after the feature cards + phone previews
+        var end = document.querySelector('.ezk-scrolly') || document.getElementById('features');
+        if (end) root.style.setProperty('--ezk-top-grad-h', Math.round(end.getBoundingClientRect().bottom + window.scrollY + 200) + 'px');
+    }
+    onScroll(); measure();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', measure);
+    window.addEventListener('load', measure);
+})();
+</script>
+
 </body>
 </html>
