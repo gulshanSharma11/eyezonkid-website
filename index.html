@@ -3857,6 +3857,9 @@ body { position: relative; isolation: isolate; }
     .wmk-hero__text-wrap { flex: 1 1 auto; justify-content: space-between; padding-top: 48px; padding-bottom: 40px; gap: 40px; }
 }
 
+/* Hero title wraps like the Figma export: "...Parental Control &" / "Child Safety" */
+@media (min-width: 1025px) { .wmk-hero .wmk-hero__title { width: auto; max-width: 9.9em; } }
+
 /* #2 "#1" badge pill: 31 x 25 */
 .wmk-badge__num { width: 31px; min-width: 31px; height: 25px; border-radius: 999px; padding: 0 3px; }
 
@@ -3929,8 +3932,9 @@ body { position: relative; isolation: isolate; }
         if (!stuck) nav.classList.remove('is-stuck');
         void nav.offsetHeight; nav.style.transition = tr;
         // top gradient fades out right after the feature cards + phone previews
-        var end = document.querySelector('.ezk-scrolly') || document.getElementById('features');
-        if (end) root.style.setProperty('--ezk-top-grad-h', Math.round(end.getBoundingClientRect().bottom + window.scrollY + 200) + 'px');
+        // as in the Figma export: the gradient fades out right after the hero (feature cards + phone preview)
+        var end = document.querySelector('.wmk-hero');
+        if (end) root.style.setProperty('--ezk-top-grad-h', Math.round(end.getBoundingClientRect().bottom + window.scrollY + 220) + 'px');
     }
     onScroll(); measure();
     window.addEventListener('scroll', onScroll, { passive: true });
