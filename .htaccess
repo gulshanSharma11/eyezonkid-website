@@ -20,7 +20,7 @@ RewriteRule ^privacy/?$ /privacy-policy/ [R=301,L]
 RewriteRule ^terms/?$ /terms-of-service/ [R=301,L]
 RewriteRule ^faqs/?$ /faq/ [R=301,L]
 # Missing trailing slash -> add it (one canonical URL per page)
-RewriteRule ^(help-centre|faq|privacy-policy|terms-of-service)$ /$1/ [R=301,L]
+RewriteRule ^(help-centre|faq|privacy-policy|terms-of-service|download)$ /$1/ [R=301,L]
 # Delete account: always show eyezonkid.com/delete-account (no slash, no .html)
 RewriteCond %{THE_REQUEST} \s/+delete-account(\.html|/)[\s?] [NC]
 RewriteRule ^ /delete-account [R=301,L]

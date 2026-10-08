@@ -44,6 +44,14 @@ const pages = [
     priority: '0.8',
   },
   {
+    slug: 'download',
+    name: 'Download',
+    title: 'Download Eyezonkid – Mac, Windows, Android & iPhone',
+    description: 'Download the Eyezonkid parental control app for Mac (Apple Silicon & Intel), Windows, Android and iPhone. Start with a 3-day free trial.',
+    type: 'WebPage',
+    priority: '0.9',
+  },
+  {
     slug: 'privacy-policy',
     name: 'Privacy Policy',
     title: 'Privacy Policy | Eyezonkid Parental Control App',
@@ -81,7 +89,7 @@ const withActive = (html, href) =>
 
 const CTA = `<section class="cta-band" aria-labelledby="cta-h">
     <div><h2 id="cta-h">A smarter way to stay connected.</h2><p>Keep your child safer, set healthier boundaries, and stay in the loop — without stepping into their private world.</p></div>
-    <a href="/#pricing" class="btn">Start your 3-day trial<span aria-hidden="true"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3.333 8h9.334M8.667 3.667 13 8l-4.333 4.333" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+    <a href="/download/" class="btn">Start your 3-day free trial<span aria-hidden="true"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3.333 8h9.334M8.667 3.667 13 8l-4.333 4.333" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
 </section>`;
 
 const FAVICON = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#252422"/><text x="32" y="45" font-family="Arial,sans-serif" font-weight="800" font-size="38" text-anchor="middle" fill="#F07167">e</text></svg>')}`;
