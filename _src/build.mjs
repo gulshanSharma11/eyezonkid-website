@@ -44,14 +44,6 @@ const pages = [
     priority: '0.8',
   },
   {
-    slug: 'download',
-    name: 'Download',
-    title: 'Download Eyezonkid – Mac, Windows, Android & iPhone',
-    description: 'Download the Eyezonkid parental control app for Mac (Apple Silicon & Intel), Windows, Android and iPhone. Start with a 3-day free trial.',
-    type: 'WebPage',
-    priority: '0.9',
-  },
-  {
     slug: 'privacy-policy',
     name: 'Privacy Policy',
     title: 'Privacy Policy | Eyezonkid Parental Control App',
@@ -207,7 +199,8 @@ if (existsSync(homePath)) {
 }
 
 /* ---------- sitemap ---------- */
-const urls = [{ loc: `${SITE}/`, priority: '1.0' }, ...pages.map((p) => ({ loc: `${SITE}/${p.slug}/`, priority: p.priority }))];
+const urls = [{ loc: `${SITE}/`, priority: '1.0' }, ...pages.map((p) => ({ loc: `${SITE}/${p.slug}/`, priority: p.priority })),
+  { loc: `${SITE}/download/`, priority: '0.9' } /* standalone page: download/index.html (embeds the API) */];
 writeFileSync(
   join(ROOT, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>
