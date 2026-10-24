@@ -150,7 +150,10 @@ function render(p) {
 <link rel="alternate" hreflang="en-IN" href="${url}">
 <link rel="alternate" hreflang="x-default" href="${url}">
 <meta name="theme-color" content="#2EC4B6">
-<link rel="icon" href="${FAVICON}">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Eyezonkid">
 <meta property="og:locale" content="en_IN">
